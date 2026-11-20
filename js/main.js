@@ -8,13 +8,45 @@ if (typeof LOGO !== 'undefined') {
   document.querySelectorAll('img[src*="IMG_8013.png"]').forEach(function (img) { img.src = LOGO; });
 }
 
+/* ── YouTube thumbnails ──────────────────────────────────────────
+   Any item in data.js may carry `youtube:` (link or bare ID). Cards,
+   gallery tiles, hero slides and search hits then render the video
+   thumbnail with all the existing effects (scrim, grain, hover, snap).
+   Fallback chain if a thumbnail fails: maxres -> hq -> item's `img`. */
+function youtubeId(u) {
+  if (!u) return null;
+  var s = String(u).trim();
+  var m = s.match(/(?:youtube\.com\/(?:watch\?[^#]*v=|shorts\/|embed\/|v\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  if (m) return m[1];
+  return /^[A-Za-z0-9_-]{11}$/.test(s) ? s : null;
+}
+function itemImg(m, alt) {
+  var a = typeof alt === 'string' ? alt : (m.title || '');
+  var yid = youtubeId(m.youtube);
+  if (!yid) return '<img src="' + m.img + '" alt="' + a + '" loading="lazy"/>';
+  return '<img src="https://i.ytimg.com/vi/' + yid + '/maxresdefault.jpg" alt="' + a + '" loading="lazy"' +
+    ' data-yt-id="' + yid + '" data-yt-step="0" data-yt-fallback="' + m.img + '"/>';
+}
+document.addEventListener('error', function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== 'IMG' || !t.dataset || !t.dataset.ytId) return;
+  if (t.dataset.ytStep === '0') {
+    t.dataset.ytStep = '1';
+    t.src = 'https://i.ytimg.com/vi/' + t.dataset.ytId + '/hqdefault.jpg';
+  } else {
+    delete t.dataset.ytId;
+    if (t.dataset.ytFallback) t.src = t.dataset.ytFallback;
+  }
+}, true);
+
 /* ── Rendering ─────────────────────────────────────────────────── */
+
 function renderHero() {
   var root = document.querySelector('.hero-carousel');
   if (!root || typeof HERO_SLIDES === 'undefined') return;
   var slides = HERO_SLIDES.map(function (s, i) {
     return '<div class="hero-slide' + (i === 0 ? ' active' : '') + '">' +
-      '<img src="' + s.img + '" alt="" />' +
+      itemImg(s, '') +
       '<div class="hero-caption">' +
         '<span class="hero-eyebrow">' + s.eyebrow + '</span>' +
         '<h1 class="hero-title">' + s.title + '</h1>' +
@@ -30,7 +62,7 @@ function renderHero() {
 }
 
 function cardHTML(m) {
-  return '<div class="media-card" data-kind="' + m.kind + '"><img src="' + m.img + '" alt="' + m.title + '" loading="lazy"/>' +
+  return '<div class="media-card" data-kind="' + m.kind + '">' + itemImg(m) +
     '<div class="card-scrim"></div>' +
     '<div class="card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>' +
     '<div class="card-meta"><p class="card-kind">' + m.kind + '</p><p class="card-title">' + m.title + '</p><p class="card-sub">' + m.sub + '</p></div></div>';
@@ -45,7 +77,7 @@ function renderRows() {
 }
 
 function galleryItemHTML(g) {
-  return '<div class="gallery-item"><img src="' + g.img + '" alt="' + g.title + '" loading="lazy"/>' +
+  return '<div class="gallery-item">' + itemImg(g) +
     '<div class="g-scrim"></div><div class="g-meta"><p class="g-title">' + g.title + '</p><p class="g-sub">' + g.sub + '</p></div></div>';
 }
 
@@ -125,7 +157,7 @@ function renderSearch() {
     (m.kind + ' ' + m.title + ' ' + m.sub).toLowerCase().includes(q));
   searchResults.innerHTML = hits.length
     ? hits.map(m =>
-        '<a class="search-hit" href="#"><img src="' + m.img + '" alt=""/>' +
+        '<a class="search-hit" href="#">' + itemImg(m, '') +
         '<span><span class="hit-kind">' + m.kind + '</span>' +
         '<div class="hit-title">' + m.title + '</div>' +
         '<div class="hit-sub">' + m.sub + '</div></span></a>').join('')
