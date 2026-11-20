@@ -27,9 +27,7 @@ function itemImg(m, alt) {
   return '<img src="https://i.ytimg.com/vi/' + yid + '/maxresdefault.jpg" alt="' + a + '" loading="lazy"' +
     ' data-yt-id="' + yid + '" data-yt-step="0" data-yt-fallback="' + m.img + '"/>';
 }
-document.addEventListener('error', function (e) {
-  var t = e.target;
-  if (!t || t.tagName !== 'IMG' || !t.dataset || !t.dataset.ytId) return;
+function ytAdvance(t) {
   if (t.dataset.ytStep === '0') {
     t.dataset.ytStep = '1';
     t.src = 'https://i.ytimg.com/vi/' + t.dataset.ytId + '/hqdefault.jpg';
@@ -37,6 +35,19 @@ document.addEventListener('error', function (e) {
     delete t.dataset.ytId;
     if (t.dataset.ytFallback) t.src = t.dataset.ytFallback;
   }
+}
+/* YouTube serves a 120px placeholder (HTTP 200) for missing videos/qualities,
+   so a failed thumbnail is detected on load by width, not only on error. */
+document.addEventListener('load', function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== 'IMG' || !t.dataset || !t.dataset.ytId) return;
+  if (t.naturalWidth > 120) return;
+  ytAdvance(t);
+}, true);
+document.addEventListener('error', function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== 'IMG' || !t.dataset || !t.dataset.ytId) return;
+  ytAdvance(t);
 }, true);
 
 /* ── Rendering ─────────────────────────────────────────────────── */
