@@ -687,3 +687,14 @@
     animation-duration: 0.01ms !important;
   }
 }
+
+/* ── CAROUSEL SNAP GUTTER FIX ──
+   Media rows snap cards with scroll-snap-align: start, but the snapport
+   defaulted to the scroller's edge, so after any horizontal scroll the
+   first card snapped flush against the screen edge while the row header
+   kept its gutter. scroll-padding-inline makes snapping respect the same
+   gutter as the scroller's padding: 48px on desktop, 20px on phones. */
+.row-scroller { scroll-padding-inline: 48px; }
+@media (max-width: 600px) {
+  .row-scroller { scroll-padding-inline: 20px; }
+}
