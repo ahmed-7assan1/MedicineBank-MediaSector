@@ -105,9 +105,19 @@ renderRows();
 renderGalleries();
 
 /* ── Theme ─────────────────────────────────────────────────────── */
+/* == LIGHT MODE SWITCH ==
+ Light mode is currently OFF: the whole site is dark-only and the
+ Appearance (Light / Dark) toggle in the menu stays hidden.
+ To bring light mode back, change false to true here and save -
+ the toggle reappears and each visitor's saved choice works again.
+ Nothing else needs editing; the CSS follows this switch. */
+var MB_LIGHT_MODE = false;
+
 function applyTheme(name) {
+  if (!MB_LIGHT_MODE) name = 'theme-dark';
   document.body.classList.toggle('theme-dark', name === 'theme-dark');
   document.body.classList.toggle('theme-light', name !== 'theme-dark');
+  document.body.classList.toggle('light-mode-on', MB_LIGHT_MODE);
   document.querySelectorAll('.theme-pill').forEach(p =>
     p.classList.toggle('active', p.dataset.theme === name));
   try { localStorage.setItem('mb_theme', name); } catch (e) {}
@@ -115,7 +125,7 @@ function applyTheme(name) {
 (function initTheme() {
   var saved = null;
   try { saved = localStorage.getItem('mb_theme'); } catch (e) {}
-  applyTheme(saved === 'theme-dark' ? 'theme-dark' : 'theme-light');
+  applyTheme(MB_LIGHT_MODE && saved === 'theme-light' ? 'theme-light' : 'theme-dark');
 })();
 document.querySelectorAll('.theme-pill').forEach(p =>
   p.addEventListener('click', () => applyTheme(p.dataset.theme)));
