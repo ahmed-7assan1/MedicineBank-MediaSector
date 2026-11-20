@@ -37,16 +37,23 @@ const HERO_SLIDES = [
   { img: ART.h2, eyebrow: 'MedicineBank Original · Series', title: 'Grand Rounds', dek: 'Weekly bedside teaching filmed at MNU hospitals: real cases, real decisions, in ten focused minutes.', cta: 'Watch now' },
   { img: ART.h3, eyebrow: 'MedicineBank · Podcast', title: 'MedBank Records', dek: 'Every lecture and practical session, recorded daily for MNU students. Press play, catch up, stay ahead.', cta: 'Listen now' },
 ];
+/* ── YouTube thumbnails ──────────────────────────────────────────
+   To show a YouTube video's thumbnail on any card, paste the video
+   link (or its bare ID) as `youtube:` on the item, for example:
+     youtube: 'https://youtu.be/XXXXXXXXXXX'
+   Accepted forms: https://youtu.be/ID, youtube.com/watch?v=ID,
+   youtube.com/shorts/ID, youtube.com/embed/ID, or the 11-char ID.
+   If the thumbnail cannot load, the item's `img` art shows instead. */
 const MEDIA_ITEMS = [
-  { img: ART.p1, kind: 'Film', title: 'The White Coat', sub: 'A short film on the first day of clinical years.' },
+  { img: ART.p1, kind: 'Film', title: 'The White Coat', sub: 'A short film on the first day of clinical years.', youtube: 'https://youtu.be/0KcxwjTtHZU' },
   { img: ART.p2, kind: 'Series', title: 'Grand Rounds', sub: 'Weekly bedside teaching, filmed at MNU hospitals.' },
-  { img: ART.p3, kind: 'Podcast', title: 'MedBank Records', sub: 'Daily lecture recordings and practical sessions.' },
-  { img: ART.p4, kind: 'Film', title: 'Night Shift', sub: 'Documentary: 12 hours in the emergency room.' },
+  { img: ART.p3, kind: 'Podcast', title: 'MedBank Records', sub: 'Daily lecture recordings and practical sessions.', youtube: 'https://youtu.be/ASsGD4GNMnA' },
+  { img: ART.p4, kind: 'Film', title: 'Night Shift', sub: 'Documentary: 12 hours in the emergency room.', youtube: 'https://youtu.be/00R9AMd2sJA' },
   { img: ART.p5, kind: 'Series', title: 'Anatomy in Ten', sub: 'Ten-minute anatomy refreshers before exams.' },
-  { img: ART.p6, kind: 'Podcast', title: 'Beyond the Textbook', sub: 'Conversations with doctors across the region.' },
-  { img: ART.p7, kind: 'Film', title: 'Match Day', sub: 'Following MNU students through results day.' },
+  { img: ART.p6, kind: 'Podcast', title: 'Beyond the Textbook', sub: 'Conversations with doctors across the region.', youtube: 'https://youtu.be/AvdOA_5sX08' },
+  { img: ART.p7, kind: 'Film', title: 'Match Day', sub: 'Following MNU students through results day.', youtube: 'https://youtu.be/Y7faimlChD8' },
   { img: ART.p8, kind: 'Series', title: 'Lab Stories', sub: 'The research benches behind the lectures.' },
-  { img: ART.p9, kind: 'Podcast', title: 'On Call', sub: 'Late-night study talk and exam strategy.' },
+  { img: ART.p9, kind: 'Podcast', title: 'On Call', sub: 'Late-night study talk and exam strategy.', youtube: 'https://youtu.be/CKkD_ZCs9Ew' },
   { img: ART.p10, kind: 'Film', title: 'Convocation', sub: 'Graduation through the eyes of one family.' },
   { img: ART.p11, kind: 'Series', title: 'Clinical Skills', sub: 'OSCE stations demonstrated step by step.' },
   { img: ART.p12, kind: 'Film', title: 'The First Cadaver', sub: 'Anatomy hall, week one: a rite of passage.' },
@@ -57,7 +64,7 @@ const ROWS = { trending: [7, 4, 1, 10, 12, 2, 5], series: [2, 5, 8, 11, 1, 4, 12
 const GALLERY_ITEMS = [
   { img: ART.g1, title: 'White Coat Ceremony', sub: 'Event coverage · Oct 2026' },
   { img: ART.g2, title: 'Anatomy Hall, Week One', sub: 'Behind the scenes' },
-  { img: ART.g3, title: 'Night Shift BTS', sub: 'Filming in the ER' },
+  { img: ART.g3, title: 'Night Shift BTS', sub: 'Filming in the ER', youtube: 'https://youtu.be/CoFvg06vo0A' },
   { img: ART.g4, title: 'Research Posters Day', sub: 'MNU campus' },
   { img: ART.g5, title: 'Convocation 2026', sub: 'Event coverage' },
   { img: ART.g6, title: 'Golden Hour Rounds', sub: 'Photo series' },
