@@ -698,3 +698,13 @@
 @media (max-width: 600px) {
   .row-scroller { scroll-padding-inline: 20px; }
 }
+
+/* ── DARK-ONLY MODE ──────────────────────────────────────────────
+   Light mode is OFF (MB_LIGHT_MODE = false in the Theme section of
+   js/main.js): the site always renders dark and the Appearance
+   (Light / Dark) toggle in the menu stays hidden. To bring light
+   mode back, flip that switch to true - the toggle reappears on its
+   own and saved visitor choices apply again. No CSS edit needed. */
+body:not(.light-mode-on) .theme-toggle-row,
+body:not(.light-mode-on) .theme-toggle-row + hr { display: none; }
+body:not(.light-mode-on) .menu-section-label:has(+ .theme-toggle-row) { display: none; }
